@@ -84,7 +84,7 @@ class SmsMessage():
             if "FromCity" in i:
                 self.from_city = i.split("=")[1]
             if "Body" in i:
-                self.body = i.split("=")[1]
+                self.body = urllib.parse.unquote_plus(i.split("=")[1])
             if "To" in i:
                 self.to_number = i.split("=")[1]
             if "MediaUrl" in i:
