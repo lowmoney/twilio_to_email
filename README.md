@@ -17,11 +17,9 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
+[![GitHub stars](https://img.shields.io/github/stars/lowmoney/twilio_to_email)](https://github.com/lowmoney/twilio_to_email/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/lowmoney/twilio_to_email)](https://github.com/lowmoney/twilio_to_email/issues)
+[![GitHub forks](https://img.shields.io/github/forks/lowmoney/twilio_to_email)](https://github.com/lowmoney/twilio_to_email/network)
 
 
 
@@ -117,7 +115,6 @@ const API_KEY = 'ENTER YOUR API';
 
 
 
-
 <!-- ROADMAP -->
 <!-- ## Roadmap
 
@@ -153,7 +150,8 @@ Distributed under the MIT License. See `LICENSE` for more information.
 [contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=flat-square
 [forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=flat-square
+
+[stars-shield]: [![GitHub stars](https://img.shields.io/github/stars/lowmoney/twilio_to_email)](https://github.com/lowmoney/twilio_to_email/stargazers)
 [stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
 [issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=flat-square
 [issues-url]: https://github.com/othneildrew/Best-README-Template/issues
