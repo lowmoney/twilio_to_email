@@ -1,19 +1,20 @@
-from typing import Optional
 from fastapi import FastAPI, Request
-import twilio_mail
-import urllib.parse
+from twilio_mail import Email
+from twilio_mail import SmsMessage
 
 app = FastAPI()
 
 @app.post("/")
 async def read_root(request:Request):
-    a = await request.body()
-    a = a.decode()
-    # urllib.parse.unquote_plus(request_body[10].split("=")[1])
-    for i in a.split("&"):
-        print(i)
-    a = twilio_mail.SMS_message(a.split("&"))
-    print(a.body)
 
-    email = twilio_mail.Email("hendry@hendryratnam.com",['hendryratnam@gmail.com'],"Testing",a.body)
+    # Get the request body and decode from incoming byte type
+    request_body = await request.body()
+    request_body = request_body.decode()
+
+    # Create the SmsMessage class with the request body
+    a = SmsMessage(request_body.split("&"))
+    print(request_body.body)
+
+    # Create the Email class and call the send_email() function
+    email = Email("hendry@hendryratnam.com",['hendryratnam@gmail.com'],"Testing",request_body.body)
     email.send_email()

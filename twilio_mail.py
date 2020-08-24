@@ -1,5 +1,7 @@
-import urllib.parse, smtplib, requests
+import smtplib
 from email.message import EmailMessage
+import urllib.parse
+import requests
 
 class Email():
     def __init__(self,sender:str,receiver:[str],subject:str,body:str):
@@ -38,8 +40,8 @@ class Email():
             print(f"unexpected error: {e}")
             pass
 
-class SMS_message():
-    def __init__(self,request_body:[str],path:str):
+class SmsMessage():
+    def __init__(self,request_body:[str],path:str=None):
         self.to_country:str
         self.to_state:str
         self.sms_message_sid:str
