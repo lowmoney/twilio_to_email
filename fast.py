@@ -1,10 +1,15 @@
+import sqlite3
 from fastapi import FastAPI, Request
 from twilio_mail import Email
 from twilio_mail import SmsMessage
 
 app = FastAPI()
 
-@app.post("/")
+@app.get("/")
+def root():
+    return "Hello world"
+
+@app.post("/send_to_email")
 async def read_root(request:Request):
 
     # Get the request body and decode from incoming byte type
@@ -16,5 +21,5 @@ async def read_root(request:Request):
     print(sms.body)
 
     # Create the Email class and call the send_email() function
-    email = Email("hendry@hendryratnam.com",['hendryratnam@gmail.com'],"Testing",sms.body)
-    email.send_email()
+    email = Email("hendry@hendryratnam.com",'hendryratnam@gmail.com',"Testing")
+    email.send_email(sms)
