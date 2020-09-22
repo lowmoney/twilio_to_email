@@ -1,6 +1,7 @@
 import smtplib
 import csv
 import re
+import os
 from email.message import EmailMessage
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
@@ -23,20 +24,27 @@ class SmsMessage():
                 media_type = ''
                 url = urllib.parse.unquote(i.split("=")[1])
 
-                wildcard = re.findall('/d$',value)[0]
+                try:
+                    wildcard = re.findall('\d$',i.split("=")[0])[0]
+                except:
+                    wildcard = None
 
                 if wildcard is not None:
                     for i in request_body:
                         if 'MediaContentType' in i:
-                            if re.search('[{}]$'.format(wildcard),i) is not None:
+                            if re.search('[{}]$'.format(wildcard),i.split("=")[0]) is not None:
                                 media_type = i.split("=")[1]
+                                print('im in')
+                                print(media_type)
+                                break
                 else:
                     for i in request_body:
                         if 'MediaContentType' in i:
                             media_type = i.split("=")[1]
 
-                SmsMessageMedia(url,media_type)
-                self.sms['Media'].append(SmsMessageMedia)
+                print(media_type)
+                media_obj = SmsMessageMedia(url,media_type)
+                self.sms['Media'].append(media_obj)
 
 
             elif 'Body' in i:
@@ -58,27 +66,32 @@ class SmsMessage():
 
         # save all media sent from the message to specified path or ~home/user/from_number/media_file
         if path is None:
-            path_to_file:str = ""
             current_home_dir = str(Path.home())
             x = 0
+            path_to_file:str = current_home_dir + "/" + str(self.sms['From'][8:])
+            if not os.path.isdir(path_to_file):
+                os.mkdir(path_to_file)
             for media in self.sms['Media']:
+                # print("!!!!!!{}!!!!!!!!!".format(media))
                 if media.media_type:
-                    path_to_file = current_home_dir + str(self.sms['From']) + "/" + self.sms['SmsMessageSid'] + str(x) + ".jpg"
-                    media.download_img(path_to_file)
+                    # print("!!!!!!!{}!!!!!!!!!".format(path_to_file))
+                    path_to_file = path_to_file + "/" + self.sms['SmsMessageSid'] + str(x) + ".jpg"
+                    media.download_img(path=path_to_file)
                     self.img_paths.append(path_to_file)
                 else:
-                    path_to_file = current_home_dir + str(self.sms['From']) + "/" + self.sms['SmsMessageSid'] + str(x) + ".mp4"
+                    path_to_file = path_to_file + "/" + self.sms['SmsMessageSid'] + str(x) + ".mp4"
                     media.download_img(path_to_file)
                     self.img_paths.append(path_to_file)
         else:
             x = 0
+            path_to_file:str = current_home_dir + "/" + str(self.sms['From'][8:])
             for media in self.sms['Media']:
                 if media.media_type:
-                    path_to_file = path + str(self.sms['From']) + "/" + self.sms['SmsMessageSid'] + str(x) + ".jpg"
+                    path_to_file = path_to_file + "/" + self.sms['SmsMessageSid'] + str(x) + ".jpg"
                     media.download_img(path_to_file)
                     self.img_paths.append(path_to_file)
                 else:
-                    path_to_file = path + str(self.sms['From']) + "/" + self.sms['SmsMessageSid'] + str(x) + ".mp4"
+                    path_to_file = path_to_file + "/" + self.sms['SmsMessageSid'] + str(x) + ".mp4"
                     media.download_img(path_to_file)
                     self.img_paths.append(path_to_file)
 
@@ -88,19 +101,19 @@ class SmsMessage():
         else:
             return("Message has not been received yet!")
 
-class SmsMessageMedia(SmsMessage):
+class SmsMessageMedia():
     def __init__(self, mediaUrl:str, mediaType:str=None):
         self.mediaUrl = mediaUrl
         self.mediaType = mediaType
     
     def download_img(self,path:str):
         source = open(path, 'wb')
-        source.write(requests.get(self.mediaUrl))
+        source.write(requests.get(self.mediaUrl).content)
         source.close()
 
     @property
     def media_type(self):
-        if 'img' in self.mediaType:
+        if 'image' in self.mediaType:
             return True
         else:
             return False
@@ -123,7 +136,7 @@ class Email():
             msg['Subject'] = self.subject
             msg['From'] = self.sender
             msg['To'] = self.receiver
-            msg.attach(MIMEText(sms_message.body,'plain'))
+            msg.attach(MIMEText(sms_message.sms['Body'],'plain'))
 
             if len(sms_message.img_paths) != 0:
                 for i in sms_message.img_paths:
