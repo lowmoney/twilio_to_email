@@ -13,7 +13,8 @@ import requests
 
 class SmsMessage():
     def __init__(self,request_body:[str],path:str=None):
-        # a dictionary that holds all the sms info. Will alwayse have Media, Body, From, and SmsMessageSid 
+        # a dictionary that holds all the sms info. Will alwayse have Media, Body, From, and SmsMessageSid
+        self.sms:dict = {'SmsMessageSid':str,} 
         self.sms:dict = {'Media':[],'Body':str,'From':str,'SmsMessageSid':str}
         # paths to all the img/video files
         self.img_paths = []

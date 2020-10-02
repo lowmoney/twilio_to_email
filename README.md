@@ -30,14 +30,12 @@
     <img src="twilio-logo-black.svg" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Twilio SMS to your Email</h3>
+  <h3 align="center">SMS to your Email</h3>
 
   <p align="center">
-    An easy to implement class to get Twilio SMS and forward to an email
+    An easy to implement Python class that forwards your Twilio SMS to your email
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
-    ·
     <a href="mailto: hendry@hendryratnam.com">Report Bug</a>
     ·
     <a href="mailto: hendry@hendryratnam.com">Request Feature</a>
@@ -50,91 +48,59 @@
 ## Table of Contents
 
 * [About the Project](#about-the-project)
-  * [Built With](#built-with)
+* [Getting Things Working](#installation)
 * [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Getting Things Working](#installation)
-* [Contributing](#contributing)
 * [License](#license)
 
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+# About the Project
+As I was going through Zapier's most popular projects, I came across one that caught my eye. They had an application that could forward a text message to an email address using the Twilio API. Having experience with the Twilio API, I decided I'd make a similar project.
 
-I was going through Zampier`s most popular projects and I saw one
-where you use the Twilio API to forward SMS to an Email adress.
-I decided to make something simialr that you could easily set
-up on a virutal machine and run your own server that does the
-same job with your full control.
-
-### Built With
-* [Python3](https://www.python.org/)
-* [FastAPI](https://fastapi.tiangolo.com/)
-* [Uvicorn](https://www.uvicorn.org/)
-* [Twilio](https://www.twilio.com/)
-* [G Suite](https://gsuite.google.com/)
-
-
+# Installation
+Simply install via pip
+```bash
+pip install TwilioToEmail
+```
 
 <!-- GETTING STARTED -->
-## Getting Started
+# Getting Started
 
 ### Prerequisites
+The only external package you need is the requests library. Also, you will need a [Twilio account](https://www.twilio.com/), and an [email](https://support.google.com/accounts/answer/6010255) that allows you to send emails.
 
-This project was built with FastAPI in mind and it is very easy
-to get setup.
-* FastAPI
-* Uvicorn
-```sh
-pip3 install fastapi uvicorn
+### Quick Start
+Simply import TwilioToEmail and pass the decoded Twilio body into the SmsMessage class. Then forward the message via the Email class's send_email function. Check out the example below.
+
+```python
+from TwilioToEmail import SmsMessage
+
+sms_body = SmsMessage(Twilio.decode('utf-8').split("&"))
+
+email = twilio_mail.Email("from_email","to_email","subject line")
+email.send_email(sms_body)
 ```
 
-### Getting Things Working
-
-
-1. Create a folder for your project
-2. Clone the repo into the folder
-```sh
-git clone https://github.com/lowmoney/twilio_to_email
-```
-3. Run the application with uvicorn
-```sh
-uvicorn fast:app --reload
-```
-4. Enter your API in `config.js`
-```JS
-const API_KEY = 'ENTER YOUR API';
-```
-
+### Some Nice Features
+TwilioToEmail can also handle media messages as well. Files like images, videos, audio, and others are saved as either MP4 or JPG. If a path location is not given to the SmsMessage class then the default **home/last_four_digits_of_number** directory is used to save media files.
 
 
 <!-- ROADMAP -->
-<!-- ## Roadmap
+## Roadmap
+- [x] Allow user to parse through SMS body via a dictionary
+- [ ] Add all default keys in the dictionary that Twilio API sends
+- [ ] Allow user to compress media files
+- [ ] Let user save info in CSV
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a list of proposed features (and known issues). -->
 
 
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-How to contribute coming soon
-<!-- Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'short description of your commit'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request -->
 
 
 
 <!-- LICENSE -->
 ## License
-
 Distributed under the MIT License. See `LICENSE` for more information.
 
 
@@ -149,10 +115,3 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 [stars-shield]: [![GitHub stars](https://img.shields.io/github/stars/lowmoney/twilio_to_email)](https://github.com/lowmoney/twilio_to_email/stargazers)
 [stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=flat-square
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=flat-square
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png

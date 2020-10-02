@@ -1,60 +1,42 @@
 Metadata-Version: 2.1
 Name: TwilioToEmail
-Version: 0.0.4
+Version: 0.0.7
 Summary: A middle man service that acts as a Twilio wrapper
 Home-page: https://github.com/lowmoney/twilio_to_email
 Author: Ruckshan Ratnam
 Author-email: hendryratnam@gmail.com
 License: UNKNOWN
-Description: 
-        ## About the Project
-        I was going through Zapier's most popular projects and saw one that did something simialr with Twilio and an Email. I decided i'd make my own version that could do the same thing with minial setup time. All you have to do is write a few lines of code to get everythig oing.
+Description: # About the Project
+        As I was going through Zapier's most popular projects, I came across one that caught my eye. They had an application that could forward a text message to an email address using the Twilio API. Having experience with the Twilio API, I decided I'd make a similar project.
         
         <!-- GETTING STARTED -->
         ## Getting Started
         
         ### Prerequisites
-        
-        The only package you need outisde of everything that comes with Python3 is the requests library.
+        The only external package you need is the requests library. Also, you will need a [Twilio account](https://www.twilio.com/), and an [email](https://support.google.com/accounts/answer/6010255) that allows you to send emails.
         
         ### Quick Start
-        I'll show you how to get a quick example started. You will need something like ngork to open a quick and easy public tunnel for your project.
-        1. Create a folder for your project
-        2. Install FastAPI, Uvicorn, and TwilioToEmail
-        ```sh
-        pip3 install fastapi uvicorn TwilioToEmail
-        ```
+        Simply import TwilioToEmail and pass the decoded Twilio body into the SmsMessage class. Then forward the message via the Email class's send_email function. Check out the example below.
         
-        3. Make a Python file to run FastAPI
         ```python
-        from fastapi import FastAPI, Request
         from TwilioToEmail import SmsMessage
-        from TwilioToEmail import Email
         
-        @app.post("/")
-        async def root():
-            #pass the request body into a var, then decode the body
-            request_body = await request.body()
-            request_body = request_body.decode()
+        sms_body = SmsMessage(Twilio.decode('utf-8').split("&"))
         
-            #create the SmsMessage class from TwilioToEmail
-            twilio_message = SmsMessage(request_body.split("&"))
-        
-            #create the Emailclass from TwilioToEmail, then call the send_email() function
-            email = Email("recievers_email", "senders_email","subject_line")
-            #now simply pass the SmsMessage object into the send_email() function
-            email.send(twilio_message)
-        
-            #return HTTP response 200
-            return(200)
+        email = twilio_mail.Email("from_email","to_email","subject line")
+        email.send_email(sms_body)
         ```
         
-        4. 
+        ### Some Nice Features
+        TwilioToEmail can also handle media messages as well. Files like images, videos, audio, and others are saved as either MP4 or JPG. If a path location is not given to the SmsMessage class then the default **home/last_four_digits_of_number** directory is used to save media files.
         
         
         <!-- ROADMAP -->
-        <!-- ## Roadmap
-        
+        ## Roadmap
+        - [x] Allow user to parse through SMS body via a dictionary
+        - [ ] Add all default keys in the dictionary that Twilio API sends
+        - [ ] Allow user to compress media files
+        - [ ] Let user save info in CSV
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License

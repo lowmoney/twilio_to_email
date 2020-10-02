@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="TwilioToEmail",
-    version="0.0.4",
+    version="0.0.7",
     author="Ruckshan Ratnam",
     author_email="hendryratnam@gmail.com",
     description="A middle man service that acts as a Twilio wrapper",
